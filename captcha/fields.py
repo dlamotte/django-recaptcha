@@ -8,9 +8,6 @@ from captcha.widgets import ReCaptcha
 from recaptcha.client import captcha
 
 class ReCaptchaField(forms.CharField):
-    default_error_messages = {
-        'captcha_invalid': _(u'Incorrect, please try again.')
-    }
 
     def __init__(self, *args, **kwargs):
         self.widget = ReCaptcha
