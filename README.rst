@@ -14,4 +14,4 @@ Add a new setting to your Django project settings file (eg.):
 
 RECAPTCHA_USE_SSL = True
 
-If you don't add this setting, it the code is written as such that it will default to **NOT** using SSL
+If you don't add this setting, the code is written to default to **NOT** use SSL.
