@@ -1,5 +1,3 @@
-from registration.forms import RegistrationForm
-from captcha.fields import ReCaptchaField
 from django.conf import settings
 from django.utils.encoding import smart_unicode, force_unicode
 from django.utils.translation import ugettext_lazy as _
@@ -7,6 +5,11 @@ from django import forms
 from django.forms.forms import BoundField
 from django.utils.html import conditional_escape
 from django.utils.safestring import mark_safe
+
+from recaptcha.client import captcha
+
+from captcha.fields import ReCaptchaField
+from registration.forms import RegistrationForm
 
 class RegistrationFormCaptcha(RegistrationForm):
     captcha = ReCaptchaField()
@@ -18,14 +21,14 @@ class RegistrationFormCaptcha(RegistrationForm):
         }
         cleaned_data = super(RegistrationFormCaptcha, self).clean()
         remote_ip = cleaned_data.get('remote_ip')
-        captcha = cleaned_data.get('captcha')
+        values = cleaned_data.get('captcha')
 
         recaptcha_challenge_value = smart_unicode(values[0])
         recaptcha_response_value = smart_unicode(values[1])
         
-        if 'RECAPTCHA_USE_SSL' in settings.__dict__.items()[0][1]:
+        try:
             use_ssl = settings.RECAPTCHA_USE_SSL
-        else:
+        except AttributeError:
             use_ssl = False
             
         check_captcha = captcha.submit(recaptcha_challenge_value, 
