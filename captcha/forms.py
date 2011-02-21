@@ -32,7 +32,7 @@ class RegistrationFormCaptcha(RegistrationForm):
             use_ssl = False
             
         check_captcha = captcha.submit(recaptcha_challenge_value, 
-            recaptcha_response_value, settings.RECAPTCHA_PRIVATE_KEY, remote_ip, use_ssl=use_ssl)
+            recaptcha_response_value, settings.RECAPTCHA_PRIVATE_KEY, remote_ip)
 
         if not check_captcha.is_valid:
             msg = default_error_messages['captcha_invalid']
